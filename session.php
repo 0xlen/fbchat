@@ -1,5 +1,5 @@
 <?php
-    include_once "facebook.php";
+    include_once dirname(__FILE__) . "/api/facebook.php";
 
 $fbconfig['appid' ]     = "269457013167096";
 $fbconfig['secret']     = "7270e6df451d6d8852ab6ea53ede41a0";

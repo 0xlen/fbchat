@@ -3,19 +3,25 @@
     include_once "session.php";
     
     if ($user) {
-        echo "<img src=https://graph.facebook.com/" . $user . "/picture />";
-        $list = $mem->get('online');
+        //echo "<img src=https://graph.facebook.com/" . $user . "/picture />";
+        $list = $mem->get('user');
         if ( !$list ){
             $mem->set( 'user' ,array($user) );
-            $mem->set('online',1);
             echo "1";
         }else{
-            $mem->increment('online');
             $userList = $mem->get('user');
-            array_push( $userList ,$user);
-            //print_r( $userList );
-            $mem->set( 'user' ,$userList );
-            echo "0";
+            if ( in_array($user,$userList) ){
+                echo "user has been login.<br/>";
+
+                //rm repeat values
+                $userList = array_flip( array_flip($userList) );
+                $mem->set( 'user' ,$userList ); //test
+            }else{
+                array_push( $userList ,$user);
+                //print_r( $userList );
+                $mem->set( 'user' ,$userList );
+                echo "0";
+            }
         }
         echo "success!<br/>";
     }

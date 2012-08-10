@@ -3,14 +3,18 @@
     
 
     try{
-        $user = $mem->get('user');
-        print_r( $user );
+        $userList = $mem->get('user');
+        /*
+        print_r( $userList );
         
-        foreach( $user as $onUser){
+        foreach( $userList as $onUser){
             echo "<img src=https://graph.facebook.com/"
                  . $onUser . "/picture />";
+            echo "<br/>";            
         }
-        
+        */
+
+        echo json_encode($userList);
 
     }catch (Exception $err){
         print_r($err);
