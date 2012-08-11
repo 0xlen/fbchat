@@ -1,10 +1,12 @@
 <?php
+    error_reporting(0);
     include_once "mem.php";
 
     if ( isset($_GET['q']) && $_GET['q'] == "timestamp" ){
         try{
-            $timestamp = $mem->get('timestamp_chat');
-            echo json_encode($timestamp);
+            $timestamp = $mem->get('chat');
+            $timestamp = end( $timestamp );
+            echo json_encode( $timestamp['timestamp'] );
         }catch (Exception $err){
             print_r($err);
         }

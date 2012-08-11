@@ -41,25 +41,40 @@ $(function(){
     }
     var timestamp_user = 0;
     setInterval(function(){
-        $.getJSON('http://localhost/fbchat/list.php?q=timestamp&callback=?',
+        $.getJSON('http://localhost/fbchat/list.php?q=timestamp',
             function(timestamp){
                 if ( timestamp_user != parseInt(timestamp) ){
                     userLoad();
                     timestamp_user = parseInt(timestamp);
                 }
-            }
+           }
         )
     } ,5000);
     userLoad();
 
     var timestamp_chat = 0;
     setInterval(function(){
-        $.getJSON('http://localhost/fbchat/log.php?q=timestamp&callback=?',
+        $.getJSON('http://localhost/fbchat/log.php?q=timestamp',
             function(timestamp){
-                if ( timestamp_chat != parseInt(timestamp) ){
+                if ( timestamp_chat != parseInt(timestamp) && timestamp != null){
+                    console.log( 'diff' );
+                    $('ul#log div#msgbox').empty()
+                    $.getJSON('http://localhost/fbchat/log.php',
+                        function(log){
+                            $.each(log ,function(i,log){
+                                $('ul#log div#msgbox')
+                                    .append('<img src="https://graph.facebook.com/'
+                                        + log.user + '/picture" style="width:32px;height:32px;" />')
+
+                                    .append('<pre>' + log.msg + '</pre>' );
+                            })
+                        }
+                    )
                     timestamp_chat = parseInt(timestamp);
                 }
             }
+        )
+        $('ul#log div#msgbox').scrollTop( $('ul#log div#msgbox').height() + 500 );
     } ,500);
 
     var userID = 0;
@@ -72,10 +87,12 @@ $(function(){
         function(e){
             if (e.which == 13 && !e.shiftKey){
                 if ( $.trim( $(this).val() ) != '' ){
+                /*
                     $('ul#log div#msgbox')
                         .append('<img src="https://graph.facebook.com/'
                                 + userID + '/picture" style="width:32px;height:32px;" />')
                         .append('<pre>' + escapeHtml( $(this).val() ) + '</pre>');
+                */
                     $.post('http://localhost/fbchat/chat.php?callback=?',
                             { 'msg': $(this).val() },
                             function(data){
