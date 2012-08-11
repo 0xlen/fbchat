@@ -7,6 +7,7 @@
         $list = $mem->get('user');
         if ( !$list ){
             $mem->set( 'user' ,array($user) );
+            $mem->set( 'timestamp_user' ,array( time() ) );
             echo "1";
         }else{
             $userList = $mem->get('user');
@@ -20,6 +21,8 @@
                 array_push( $userList ,$user);
                 //print_r( $userList );
                 $mem->set( 'user' ,$userList );
+                $mem->set( 'timestamp_user' ,array( time() ) ); //renew timestamp
+
                 echo "0";
             }
         }

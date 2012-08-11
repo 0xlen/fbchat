@@ -2,18 +2,16 @@
     include_once "mem.php";
 
     if ( isset($_GET['q']) && $_GET['q'] == "timestamp" ){
-
         try{
-            $timeStamp = $mem->get('timestamp_user');
-            echo json_encode( $timeStamp );
+            $timestamp = $mem->get('timestamp_chat');
+            echo json_encode($timestamp);
         }catch (Exception $err){
             print_r($err);
         }
-
     }else{
-
         try{
-            $userList = $mem->get('user');
+            $log = $mem->get('chat');
+
             /*
             print_r( $userList );
             
@@ -24,10 +22,11 @@
             }
             */
 
-            echo json_encode($userList);
+            echo json_encode($log);
 
         }catch (Exception $err){
             print_r($err);
         }
     }
+
 ?>
